@@ -5,7 +5,7 @@ import Sidebar from './components/Sidebar';
 import PersonalInfo from './components/PersonalInfo';
 import Education from './components/Education';
 import Experience from './components/Experience';
-import Projects from './Projects';
+import Projects from './components/Projects';
 function App() {
   return (
     <Router>

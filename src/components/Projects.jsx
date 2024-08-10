@@ -17,7 +17,18 @@ function Projects() {
     
       {projectSections.map((section) => (
         <div key={section.id} className='mb-10'>
+            {section.id >= 2 && (
+            <div className='flex justify-end'>
+              <img 
+                src="delete.jpg" 
+                alt="Delete" 
+                className='w-12 h-12 cursor-pointer'
+                onClick={() => deleteProjectSection(section.id)} 
+              />
+            </div>
+          )}
           <div className='grid grid-cols-2 gap-7'>
+            
             <div>
               <h1 className='text-start font-nunito font-bold mb-3'>Name</h1>
               <input
@@ -42,31 +53,24 @@ function Projects() {
               className='border-2 p-2 w-full min-h-28 rounded-lg bg-inputColor border-inputBorder max-h-36'
             ></textarea>
           </div>
-          {section.id >= 2 && (
-            <div className='flex justify-end'>
-              <img 
-                src="delete.jpg" 
-                alt="Delete" 
-                className='w-12 h-12 cursor-pointer'
-                onClick={() => deleteProjectSection(section.id)} 
-              />
-            </div>
-          )}
+        
         </div>
       ))}
-      <div className='flex justify-between mt-4'>
-        <button
+      <div className='flex flex-col items-end mt-0'>
+        <img
+        src='add.jpg'
           onClick={addProjectSection}
-          className='bg-customPurple pt-2 pb-2 pl-5 pr-5 text-center text-lg font-nunito text-white'
-        >
-          Add More
-        </button>
+          className='h-10 w-10 '
+        />
         <button
-          className='bg-customPurple pt-2 pb-2 pl-5 pr-5 text-center text-lg font-nunito text-white'
+          className='bg-customPurple pt-2 pb-2 pl-5 pr-5 text-center mt-12 text-lg font-nunito text-white'
         >
           Next Session
         </button>
       </div>
+      <div className='flex items-start -mt-14'>
+  <img src="back_arrow.png" alt="back" className='h-16 w-16 ' />
+</div>
     </div>
   );
 }

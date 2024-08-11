@@ -20,9 +20,9 @@ function Sidebar() {
        <Link to="/projects" className='bg-customPurple rounded-2xl
        pt-3 pb-3 pl-5 pr-5 text-center text-lg font-nunito text-white'>Projects
        </Link> 
-       <div className='bg-customPurple rounded-2xl
+       <Link to="/contact" className='bg-customPurple rounded-2xl
        pt-3 pb-3 pl-5 pr-5 text-center text-lg font-nunito text-white'>Contact Information
-       </div> 
+       </Link> 
       </div>
     </nav>
   )

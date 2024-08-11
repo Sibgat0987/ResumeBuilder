@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 function Education() {
   const [educationSection, setEducationSection] = useState([{ id: 1 }]);
-
+  const [institutionName, setinstitutionName] = useState('');
+  const [course, setcourse] = useState('');
+  const[country,setcountry]=useState('');
+  const[state,setState]=useState('');
+  const[start,setStart]=useState('');
+  const[finish,setFinish]=useState('');
+  const navigate = useNavigate();
   const addEducationSection = () => {
     setEducationSection([...educationSection, { id: educationSection.length + 1 }]);
   };
@@ -10,6 +18,17 @@ function Education() {
   const deleteEducationSection = (id) => {
     setEducationSection(educationSection.filter(section => section.id !== id));
   };
+  const handleBackClick = () => {
+
+   navigate('/personal-info')
+  };
+  const handleNextClick=()=>{
+    if (institutionName && course && country && state && start && finish) {
+      navigate('/experience')
+
+    }
+  }
+  const isFormValid = institutionName && course && country && state && start && finish;
 
   return (
     <div className='shadow-custom bg-white rounded-2xl  w-1000 min-h-full p-10 pl-12 pr-12 -mt-5'>
@@ -28,31 +47,46 @@ function Education() {
           )}
           <div className='grid grid-cols-2 gap-7'>
             <div>
-              <h1 className='text-start font-nunito font-bold mb-3'>Institution name</h1>
-              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required />
+              <h1 className='text-start font-nunito font-bold mb-3' 
+         >Institution name</h1>
+              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder"
+                   value={institutionName} 
+                   onChange={(e)=>setinstitutionName(e.target.value)} required />
             </div>
             <div>
-              <h1 className='text-start font-nunito font-bold mb-3'>Course</h1>
-              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required />
+              <h1 className='text-start font-nunito font-bold mb-3'
+              >Course</h1>
+              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder"
+              value={course}
+              onChange={(e)=>setcourse(e.target.value)} required />
             </div>
             <div>
-              <h1 className='text-start font-nunito font-bold mb-3'>Country</h1>
-              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required />
+              <h1 className='text-start font-nunito font-bold mb-3'
+            >Country</h1>
+              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" 
+                value={country}
+                onChange={(e)=>setcountry(e.target.value)} required />
             </div>
             <div>
               <h1 className='text-start font-nunito font-bold mb-3'>State</h1>
-              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required />
+              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required 
+                value={state}
+                onChange={(e)=>setState(e.target.value)}/>
             </div>
           </div>
           <h1 className='text-start font-nunito font-bold mb-3 mt-7'>Time period</h1>
           <div className='grid grid-cols-2 gap-7'>
             <div>
               <h1 className='text-start font-nunito font-bold mb-3 text-gray-400'>Start</h1>
-              <input type="date" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required />
+              <input type="date" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" 
+                value={start}
+                onChange={(e)=>setStart(e.target.value)}required />
             </div>
             <div>
               <h1 className='text-start font-nunito font-bold mb-3 text-gray-400'>Finish</h1>
-              <input type="date" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required />
+              <input type="date" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" 
+                value={finish}
+                onChange={(e)=>setFinish(e.target.value)}required />
             </div>
           </div>
           <div className='flex flex-col items-end pr-16 pt-4 '>
@@ -62,12 +96,16 @@ function Education() {
               className='h-10 w-10 ml-11 cursor-pointer '
               onClick={addEducationSection}
             />
-            <button className='bg-customPurple pt-2 pb-2 pl-5 pr-5 text-center mt-10 text-lg font-nunito text-white'>
+            <button
+        className={`bg-customPurple pt-2 pb-2 pl-5 pr-5 text-center text-lg font-nunito text-white ${!isFormValid && 'opacity-50 cursor-not-allowed'}`} 
+
+            onClick={handleNextClick}
+            disabled={!isFormValid}>
               Next Session
             </button>
           </div>
           <div className='flex items-start -mt-14'>
-            <img src="back_arrow.png" alt="Back" className='h-16 w-16' />
+            <img src="back_arrow.png" alt="Back" className='h-16 w-16' onClick={handleBackClick} />
           </div>
 
         </div>

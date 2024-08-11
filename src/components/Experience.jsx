@@ -1,14 +1,34 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function Experience() {
-  const [experienceSection, setExperienceSection] = useState([{ id: 1 }]);
+function Experience({ prevPath }) {
+  const [experienceSection, setExperienceSection] = useState([{ id: 1, employer: '', company: '', address: '', role: '', about: '' }]);
+  const navigate = useNavigate();
 
   const addExperienceSection = () => {
-    setExperienceSection([...experienceSection, { id: experienceSection.length + 1 }]);
+    setExperienceSection([...experienceSection, { id: experienceSection.length + 1, employer: '', company: '', address: '', role: '', about: '' }]);
   };
 
   const deleteExperienceSection = (id) => {
     setExperienceSection(experienceSection.filter(section => section.id !== id));
+  };
+
+  const handleInputChange = (id, field, value) => {
+    setExperienceSection(experienceSection.map(section => 
+      section.id === id ? { ...section, [field]: value } : section
+    ));
+  };
+
+  const isFormValid = experienceSection.every(section => section.employer && section.company && section.address && section.role);
+
+  const handleNextClick = () => {
+    if (isFormValid) {
+      navigate('/projects');
+    }
+  };
+
+  const handleBackClick = () => {
+    navigate('/education');
   };
 
   return (
@@ -26,23 +46,46 @@ function Experience() {
               />
             </div>
           )}
-
           <div className='grid grid-cols-2 gap-7'>
             <div>
               <h1 className='text-start font-nunito font-bold mb-3'>Employer</h1>
-              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required />
+              <input 
+                type="text" 
+                className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder"
+                value={section.employer}
+                onChange={(e) => handleInputChange(section.id, 'employer', e.target.value)}
+                required 
+              />
             </div>
             <div>
               <h1 className='text-start font-nunito font-bold mb-3'>Company</h1>
-              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required />
+              <input 
+                type="text" 
+                className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder"
+                value={section.company}
+                onChange={(e) => handleInputChange(section.id, 'company', e.target.value)}
+                required 
+              />
             </div>
             <div>
               <h1 className='text-start font-nunito font-bold mb-3'>Address</h1>
-              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required />
+              <input 
+                type="text" 
+                className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder"
+                value={section.address}
+                onChange={(e) => handleInputChange(section.id, 'address', e.target.value)}
+                required 
+              />
             </div>
             <div>
               <h1 className='text-start font-nunito font-bold mb-3'>Role</h1>
-              <input type="text" className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder" required />
+              <input 
+                type="text" 
+                className="border-2 p-2 w-full max-w-xs rounded-lg bg-inputColor border-inputBorder"
+                value={section.role}
+                onChange={(e) => handleInputChange(section.id, 'role', e.target.value)}
+                required 
+              />
             </div>
           </div>
 
@@ -50,8 +93,10 @@ function Experience() {
             <h1 className='text-start font-nunito font-bold mb-3'>About</h1>
             <textarea 
               name="message" 
-              className='border-2 p-2 w-full min-h-28 rounded-lg bg-inputColor border-inputBorder max-h-36'>
-            </textarea>
+              className='border-2 p-2 w-full min-h-28 rounded-lg bg-inputColor border-inputBorder max-h-36'
+              value={section.about}
+              onChange={(e) => handleInputChange(section.id, 'about', e.target.value)}
+            />
           </div>
 
           <div className='flex flex-col items-end pr-4 pt-4'>
@@ -61,13 +106,19 @@ function Experience() {
               className='h-10 w-10 ml-11 cursor-pointer'
               onClick={addExperienceSection}
             />
-            <button className='bg-customPurple pt-2 pb-2 pl-5 pr-5 mt-7 text-center text-lg font-nunito text-white'>
-              Next Session
-            </button>
           </div>
 
-          <div className='flex items-start -mt-10'>
-            <img src="back_arrow.png" alt="Back" className='h-12 w-14' />
+          <div className='flex justify-between mt-4'>
+          <div className='flex items-start -mt-14'>
+            <img src="back_arrow.png" alt="Back" className='h-16 w-16' onClick={handleBackClick} />
+          </div>
+            <button 
+              className={`bg-customPurple pt-2 pb-2 pl-5 pr-5 text-center text-lg font-nunito text-white ${!isFormValid && 'opacity-50 cursor-not-allowed'}`}
+              onClick={handleNextClick}
+              disabled={!isFormValid}
+            >
+              Next Session
+            </button>
           </div>
         </div>
       ))}

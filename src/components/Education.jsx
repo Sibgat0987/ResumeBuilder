@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 function Education() {
@@ -22,16 +23,31 @@ function Education() {
 
    navigate('/personal-info')
   };
-  const handleNextClick=()=>{
+  const handleNextClick=async()=>{
     if (institutionName && course && country && state && start && finish) {
-      navigate('/experience')
-
+      const educationData = {
+        institutionName,
+        course,
+        country,
+        state,
+        start,
+        finish,
+      };
+      try {
+        await axios.post('http://localhost:5000/api/education', educationData);
+        navigate('/experience');
+      } 
+      catch (err) {
+        console.error('Error submitting education info:', err);
+      }
     }
-  }
+    };
+  
   const isFormValid = institutionName && course && country && state && start && finish;
 
   return (
-    <div className='shadow-custom bg-white rounded-2xl  w-1000 min-h-full p-10 pl-12 pr-12 -mt-5'>
+    <div className="flex justify-center items-center min-h-screen bg-gray-200">
+ <div className='shadow-custom bg-white rounded-2xl  w-1000 min-h-full p-10 pl-12 pr-12 -mt-5'>
       <h2 className='text-start font-nunito font-bold text-xl mb-8'>Education</h2>
       {educationSection.map((section) => (
         <div key={section.id} className='mb-10'>
@@ -93,7 +109,7 @@ function Education() {
             <img
               src='add.jpg'
               alt="Add"
-              className='h-10 w-10 ml-11 cursor-pointer '
+              className='h-10 w-10 ml-11 mb-4 cursor-pointer '
               onClick={addEducationSection}
             />
             <button
@@ -111,6 +127,8 @@ function Education() {
         </div>
       ))}
     </div>
+      </div>
+   
   );
 }
 

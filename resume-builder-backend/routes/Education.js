@@ -5,8 +5,6 @@ const Education = require('../models/Education');
 // Create a new education entry
 router.post('/', async (req, res) => {
   try {
-    await Education.deleteMany({});  // Clear existing education entries if needed
-
     const education = new Education(req.body);
     await education.save();
     res.status(201).send(education);

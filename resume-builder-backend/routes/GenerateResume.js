@@ -16,9 +16,9 @@ router.get('/generate', async (req, res) => {
   try {
     // Fetch stored information from your models
     const personalInfo = await PersonalInfo.findOne({}).sort({ updatedAt: -1 });
-    const education = await Education.find({}).sort({ updatedAt: -1 });
-    const experience = await Experience.find({}).sort({ updatedAt: -1 });
-    const projects = await Projects.find({}).sort({ updatedAt: -1 });
+    const education = await Education.findOne({}).sort({ updatedAt: -1 });
+    const experience = await Experience.findOne({}).sort({ updatedAt: -1 });
+    const projects = await Projects.findOne({}).sort({ updatedAt: -1 });
     const contacts = await Contacts.findOne({}).sort({ updatedAt: -1 });
     
 
@@ -42,12 +42,12 @@ router.get('/generate', async (req, res) => {
 
     if (education) {
       doc.fontSize(20).text('Education:');
-      doc.fontSize(16).text(`Institution Name: ${education.institutionName}`);
-      doc.fontSize(16).text(`Course: ${education.course}`);
-      doc.fontSize(16).text(`Country: ${education.country}`);
-      doc.fontSize(16).text(`State: ${education.state}`);
-      doc.fontSize(16).text(`Start Date: ${education.start}`);
-      doc.fontSize(16).text(`Finish Date: ${education.finish}`);
+      doc.fontSize(16).text(`Institution Name: ${education.institutionName || 'N/A'}`);
+      doc.fontSize(16).text(`Course: ${education.course || 'N/A'}`);
+      doc.fontSize(16).text(`Country: ${education.country || 'N/A'}`);
+      doc.fontSize(16).text(`State: ${education.state || 'N/A'}`);
+      doc.fontSize(16).text(`Start Date: ${education.start || 'N/A'}`);
+      doc.fontSize(16).text(`Finish Date: ${education.finish || 'N/A'}`);
       doc.moveDown();
     }
     
